@@ -16,7 +16,7 @@ export default function Masthead() {
           WebkitTextFillColor: "transparent",
         }}
       >
-        Digital Dream Studio
+        Digital Dream Studios
       </Typography>
 
       <Divider sx={{ maxWidth: 440, mx: "auto", my: 1.5, color: "primary.main" }}>✦</Divider>
@@ -26,7 +26,7 @@ export default function Masthead() {
         color="text.secondary"
         sx={{ letterSpacing: "0.16em", fontSize: { xs: 11, sm: 14 } }}
       >
-        We make your special moments into memories
+        We make your memories special
       </Typography>
     </Box>
   );
