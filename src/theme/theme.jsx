@@ -5,10 +5,10 @@ const serif = '"Cormorant Garamond", Georgia, serif';
 const theme = createTheme({
   palette: {
     mode: "dark",
-    primary: { main: "#d4af37", light: "#f0d582", dark: "#8a7128", contrastText: "#181510" },
-    background: { default: "#0a0908", paper: "#161413" },
+    primary: { main: "#c9a96e", light: "#e8d5a8", dark: "#9a7b3f", contrastText: "#1c1812" },
+    background: { default: "#1a1712", paper: "#242019" },
     text: { primary: "#f3ece0", secondary: "#b5ab99", disabled: "#7d7466" },
-    divider: "#2c2722",
+    divider: "#3b352b",
   },
   shape: { borderRadius: 12 },
   typography: {
