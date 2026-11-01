@@ -1,8 +1,10 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Grid, Typography, Box, Button } from "@mui/material";
 import api from "../api/client";
 import DayCell from "../components/DayCell";
+// import BookingForm from "../components/BookingForm";
+// import DayDetails from "../components/DayDetails";
 
 const MONTHS = [
   "January", "February", "March", "April", "May", "June",
@@ -17,13 +19,20 @@ export default function CalendarPage() {
   const y = Number(year);
   const m = Number(month);
   const [bookings, setBookings] = useState([]);
+  const [detailsDate, setDetailsDate] = useState(""); // day popup
+  const [pickedDate, setPickedDate] = useState(""); // add form
+  const [editing, setEditing] = useState(null); // booking being edited
 
-  useEffect(() => {
+  const loadBookings = useCallback(() => {
     api
       .get("/bookings/", { params: { year, month } })
       .then((res) => setBookings(res.data))
       .catch(() => setBookings([]));
   }, [year, month]);
+
+  useEffect(() => {
+    loadBookings();
+  }, [loadBookings]);
 
   // group bookings by date: { "2026-10-15": [booking, booking] }
   const byDate = bookings.reduce((acc, b) => {
@@ -45,6 +54,19 @@ export default function CalendarPage() {
   const dateKey = (d) => `${y}-${pad(m)}-${pad(d)}`;
   const statusOf = (list) =>
     !list ? null : list.every((b) => b.status === "done") ? "done" : "booked";
+
+  const handleDayClick = (d) => {
+    const key = dateKey(d);
+    if (byDate[key]) setDetailsDate(key);
+    else setPickedDate(key);
+  };
+
+  const closeForm = () => {
+    setPickedDate("");
+    setEditing(null);
+  };
+
+  const dayList = byDate[detailsDate] || [];
 
   return (
     <Box>
@@ -83,13 +105,31 @@ export default function CalendarPage() {
                   isToday={isToday(d)}
                   status={statusOf(list)}
                   count={list ? list.length : 0}
-                  onClick={() => console.log("clicked", dateKey(d))}
+                  onClick={() => handleDayClick(d)}
                 />
               )}
             </Grid>
           );
         })}
       </Grid>
+
+      <DayDetails
+        open={Boolean(detailsDate) && dayList.length > 0}
+        date={detailsDate}
+        bookings={dayList}
+        onClose={() => setDetailsDate("")}
+        onAdd={() => setPickedDate(detailsDate)}
+        onEdit={(b) => setEditing(b)}
+        onChanged={loadBookings}
+      />
+
+      <BookingForm
+        open={Boolean(pickedDate) || Boolean(editing)}
+        defaultDate={pickedDate}
+        booking={editing}
+        onClose={closeForm}
+        onSaved={loadBookings}
+      />
     </Box>
   );
 }
