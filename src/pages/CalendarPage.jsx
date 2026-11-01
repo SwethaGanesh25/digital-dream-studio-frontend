@@ -3,8 +3,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Grid, Typography, Box, Button } from "@mui/material";
 import api from "../api/client";
 import DayCell from "../components/DayCell";
-import BookingForm from "../components/BookingForm";
-import DayDetails from "../components/DayDetails";
+// import BookingForm from "../components/BookingForm";
+// import DayDetails from "../components/DayDetails";
 
 const MONTHS = [
   "January", "February", "March", "April", "May", "June",
