@@ -3,8 +3,7 @@ import { Paper, Typography, Box } from "@mui/material";
 import api from "../api/client";
 
 const SHORT = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-const DOT = { booked: "#c9a96e", done: "#b8793a" };
-
+const DOT = { enquiry: "#7aa7c7", booked: "#c9a96e", done: "#b8793a" };
 const fmt = (iso) => {
   const [y, m, d] = iso.split("-");
   return `${d} ${SHORT[Number(m) - 1]} ${y}`;

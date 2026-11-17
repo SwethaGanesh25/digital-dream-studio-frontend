@@ -3,8 +3,10 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Grid, Typography, Box, Button } from "@mui/material";
 import api from "../api/client";
 import DayCell from "../components/DayCell";
-// import BookingForm from "../components/BookingForm";
-// import DayDetails from "../components/DayDetails";
+import StatsPanel from "../components/StatsPanel";
+import TodoPanel from "../components/TodoPanel";
+import BookingForm from "../components/BookingForm";
+import DayDetails from "../components/DayDetails";
 
 const MONTHS = [
   "January", "February", "March", "April", "May", "June",
@@ -52,8 +54,14 @@ export default function CalendarPage() {
     d === today.getDate() && m === today.getMonth() + 1 && y === today.getFullYear();
 
   const dateKey = (d) => `${y}-${pad(m)}-${pad(d)}`;
-  const statusOf = (list) =>
-    !list ? null : list.every((b) => b.status === "done") ? "done" : "booked";
+
+  // any Confirmed -> gold, else any Enquiry -> blue, else all Closed -> bronze
+  const statusOf = (list) => {
+    if (!list) return null;
+    if (list.some((b) => b.status === "booked")) return "booked";
+    if (list.some((b) => b.status === "enquiry")) return "enquiry";
+    return "done";
+  };
 
   const handleDayClick = (d) => {
     const key = dateKey(d);
@@ -79,38 +87,56 @@ export default function CalendarPage() {
         </Typography>
       </Box>
 
-      <Grid container spacing={1} columns={7} sx={{ mb: 1 }}>
-        {WEEKDAYS.map((w) => (
-          <Grid key={w} size={1}>
-            <Typography
-              variant="caption"
-              color="primary"
-              sx={{ display: "block", textAlign: "center" }}
-            >
-              {w}
-            </Typography>
+      <Grid container spacing={3}>
+        {/* left: calendar */}
+        <Grid size={{ xs: 12, md: 9 }}>
+          <Grid container spacing={1} columns={7} sx={{ mb: 1 }}>
+            {WEEKDAYS.map((w) => (
+              <Grid key={w} size={1}>
+                <Typography
+                  variant="caption"
+                  color="primary"
+                  sx={{ display: "block", textAlign: "center" }}
+                >
+                  {w}
+                </Typography>
+              </Grid>
+            ))}
           </Grid>
-        ))}
-      </Grid>
 
-      <Grid container spacing={1} columns={7}>
-        {cells.map((d, i) => {
-          const list = d ? byDate[dateKey(d)] : null;
-          return (
-            <Grid key={i} size={1}>
-              {d && (
-                <DayCell
-                  day={d}
-                  index={i}
-                  isToday={isToday(d)}
-                  status={statusOf(list)}
-                  count={list ? list.length : 0}
-                  onClick={() => handleDayClick(d)}
-                />
-              )}
-            </Grid>
-          );
-        })}
+          <Grid container spacing={1} columns={7}>
+            {cells.map((d, i) => {
+              const list = d ? byDate[dateKey(d)] : null;
+              return (
+                <Grid key={i} size={1}>
+                  {d && (
+                    <DayCell
+                      day={d}
+                      index={i}
+                      isToday={isToday(d)}
+                      status={statusOf(list)}
+                      count={list ? list.length : 0}
+                      onClick={() => handleDayClick(d)}
+                    />
+                  )}
+                </Grid>
+              );
+            })}
+          </Grid>
+        </Grid>
+
+        {/* right: stats + to-do */}
+        <Grid size={{ xs: 12, md: 3 }}>
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
+            <StatsPanel
+              title={`${MONTHS[m - 1]} overview`}
+              year={year}
+              month={month}
+              refreshKey={bookings}
+            />
+            <TodoPanel bookings={bookings} onChanged={loadBookings} />
+          </Box>
+        </Grid>
       </Grid>
 
       <DayDetails

@@ -5,6 +5,7 @@ import { keyframes } from "@mui/material/styles";
 import api from "../api/client";
 import TileCard from "../components/TileCard";
 import UpcomingEvents from "../components/UpcomingEvents";
+import StatsPanel from "../components/StatsPanel";
 
 const MONTHS = [
   "January", "February", "March", "April", "May", "June",
@@ -68,8 +69,11 @@ export default function MonthsPage() {
           </Grid>
         </Grid>
 
-        <Grid size={{ xs: 12, md: 3 }}>
-          <UpcomingEvents limit={5} />
+                <Grid size={{ xs: 12, md: 3 }}>
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
+            <StatsPanel title={`${year} overview`} year={year} />
+            <UpcomingEvents limit={5} />
+          </Box>
         </Grid>
       </Grid>
     </Box>

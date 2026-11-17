@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import YearsPage from "./pages/YearsPage";
 import MonthsPage from "./pages/MonthsPage";
 import CalendarPage from "./pages/CalendarPage";
+import ClientsPage from "./pages/ClientsPage";
 export default function App() {
   return (
     <Routes>
@@ -16,6 +17,7 @@ export default function App() {
           <Route path="/years" element={<YearsPage />} />
           <Route path="/years/:year" element={<MonthsPage />} />
           <Route path="/years/:year/:month" element={<CalendarPage />} />
+          <Route path="/clients" element={<ClientsPage />} />
         </Route>
       </Route>
     </Routes>

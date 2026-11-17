@@ -6,7 +6,8 @@ const pop = keyframes`
 `;
 
 const COLORS = {
-  booked: { bg: "#D4AF37", fg: "#0A0908" }, // gold
+  enquiry: { bg: "#7aa7c7", fg: "#0A0908" }, // soft blue
+  booked: { bg: "#C9A96E", fg: "#0A0908" }, // gold
   done: { bg: "#B8793A", fg: "#0A0908" }, // bronze
 };
 
@@ -16,8 +17,9 @@ export default function DayCell({ day, status = null, count = 0, isToday = false
     <Box
       onClick={onClick}
       sx={{
+        position: "relative",
         height: { xs: 52, sm: 84 },
-        p: 1,
+        p: { xs: 0.5, sm: 1 },
         cursor: "pointer",
         borderRadius: 1,
         border: "1px solid",
@@ -28,17 +30,38 @@ export default function DayCell({ day, status = null, count = 0, isToday = false
         transition: "transform .2s, box-shadow .2s",
         "&:hover": {
           transform: "translateY(-3px) scale(1.05)",
-          boxShadow: "0 6px 18px rgba(212,175,55,0.35)",
+          boxShadow: "0 6px 18px rgba(201,169,110,0.35)",
         },
       }}
     >
-      <Typography variant="body1" sx={{ fontWeight: isToday ? 700 : 500 }}>
+      <Typography
+        variant="body1"
+        sx={{ fontWeight: isToday ? 700 : 500, fontSize: { xs: 13, sm: 16 } }}
+      >
         {day}
       </Typography>
+
       {count > 0 && (
-        <Typography variant="caption">
-          {count} {count === 1 ? "event" : "events"}
-        </Typography>
+        <>
+          {/* phone: small number badge */}
+          <Typography
+            variant="caption"
+            sx={{
+              display: { xs: "block", sm: "none" },
+              position: "absolute",
+              right: 4,
+              bottom: 2,
+              fontWeight: 700,
+              fontSize: 11,
+            }}
+          >
+            {count}
+          </Typography>
+          {/* tablet and desktop: full text */}
+          <Typography variant="caption" sx={{ display: { xs: "none", sm: "block" } }}>
+            {count} {count === 1 ? "event" : "events"}
+          </Typography>
+        </>
       )}
     </Box>
   );

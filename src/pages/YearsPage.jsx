@@ -64,7 +64,10 @@ export default function YearsPage() {
         </IconButton>
       </Box>
 
-      <Box sx={{ display: "flex", justifyContent: "flex-end", mb: 2 }}>
+            <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 1, mb: 2 }}>
+        <Button variant="outlined" onClick={() => navigate("/clients")}>
+          Clients
+        </Button>
         <Button variant="contained" onClick={() => setFormOpen(true)}>
           + Add Event
         </Button>
