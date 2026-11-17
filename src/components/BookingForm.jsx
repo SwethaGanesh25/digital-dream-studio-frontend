@@ -4,9 +4,11 @@ import {
   Button, TextField, MenuItem, Alert, Grid,
 } from "@mui/material";
 import api from "../api/client";
+import { SERVICES } from "../constants/services";
 
 const EMPTY = {
-  event_name: "", client_name: "", date: "", time: "", venue: "", status: "booked",
+  event_name: "", client_name: "", date: "", time: "", venue: "",
+  service: "wedding", notes: "", status: "booked",
 };
 const dark = { "& input": { colorScheme: "dark" } };
 const shrink = { inputLabel: { shrink: true } };
@@ -20,7 +22,7 @@ export default function BookingForm({ open, onClose, onSaved, booking = null, de
     if (!open) return;
     setForm(
       booking
-        ? { ...booking, time: booking.time.slice(0, 5) }
+        ? { ...EMPTY, ...booking, time: booking.time.slice(0, 5) }
         : { ...EMPTY, date: defaultDate }
     );
     setError("");
@@ -38,7 +40,7 @@ export default function BookingForm({ open, onClose, onSaved, booking = null, de
       onSaved?.();
       onClose();
     } catch {
-      setError("Could not save. Please fill in every field.");
+      setError("Could not save. Please fill in every required field.");
     } finally {
       setSaving(false);
     }
@@ -63,9 +65,10 @@ export default function BookingForm({ open, onClose, onSaved, booking = null, de
             <TextField label="Client name" required fullWidth value={form.client_name} onChange={set("client_name")} />
           </Grid>
           <Grid size={{ xs: 12, sm: 6 }}>
-            <TextField select label="Status" fullWidth value={form.status} onChange={set("status")}>
-              <MenuItem value="booked">Booked</MenuItem>
-              <MenuItem value="done">Delivered</MenuItem>
+            <TextField select label="Service" fullWidth value={form.service} onChange={set("service")}>
+              {SERVICES.map((s) => (
+                <MenuItem key={s.value} value={s.value}>{s.label}</MenuItem>
+              ))}
             </TextField>
           </Grid>
           <Grid size={{ xs: 12, sm: 6 }}>
@@ -76,8 +79,19 @@ export default function BookingForm({ open, onClose, onSaved, booking = null, de
             <TextField type="time" label="Time" required fullWidth sx={dark}
               slotProps={shrink} value={form.time} onChange={set("time")} />
           </Grid>
-          <Grid size={12}>
+          <Grid size={{ xs: 12, sm: 6 }}>
             <TextField label="Venue" required fullWidth value={form.venue} onChange={set("venue")} />
+          </Grid>
+          <Grid size={{ xs: 12, sm: 6 }}>
+            <TextField select label="Status" fullWidth value={form.status} onChange={set("status")}>
+              <MenuItem value="enquiry">Enquiry</MenuItem>
+              <MenuItem value="booked">Confirmed</MenuItem>
+              <MenuItem value="done">Closed</MenuItem>
+            </TextField>
+          </Grid>
+          <Grid size={12}>
+            <TextField label="Notes (optional)" fullWidth multiline minRows={3}
+              value={form.notes} onChange={set("notes")} />
           </Grid>
         </Grid>
       </DialogContent>

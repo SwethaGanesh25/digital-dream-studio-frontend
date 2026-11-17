@@ -1,16 +1,51 @@
+// import { Box, Typography, Divider } from "@mui/material";
+
+// export default function Masthead() {
+//   return (
+//     <Box
+//       component="header"
+//       sx={{ textAlign: "center", py: { xs: 4, sm: 6 }, px: 2, borderBottom: 1, borderColor: "divider" }}
+//     >
+//       <Typography
+//         variant="h1"
+//         sx={{
+//           fontSize: { xs: 44, sm: 72, md: 96 },
+//           lineHeight: 1.05,
+//           background: "linear-gradient(180deg, #ead9ae, #c9a96e 55%, #9a7b3f)",
+//           WebkitBackgroundClip: "text",
+//           WebkitTextFillColor: "transparent",
+//         }}
+//       >
+//         Digital Dream Studios
+//       </Typography>
+
+//       <Divider sx={{ maxWidth: 520, mx: "auto", my: 2, color: "primary.main" }}>✦</Divider>
+
+//       <Typography
+//         variant="overline"
+//         color="white"
+//         sx={{ letterSpacing: "0.18em", fontSize: { xs: 25, sm: 27 } }}
+//       >
+//         We make your memories special
+//       </Typography>
+//     </Box>
+//   );
+// }
+
 import { Box, Typography, Divider } from "@mui/material";
 
 export default function Masthead() {
   return (
     <Box
       component="header"
-      sx={{ textAlign: "center", py: { xs: 4, sm: 6 }, px: 2, borderBottom: 1, borderColor: "divider" }}
+      sx={{ textAlign: "center", py: { xs: 3, sm: 4 }, px: 2, borderBottom: 1, borderColor: "divider" }}
     >
       <Typography
         variant="h1"
         sx={{
-          fontSize: { xs: 44, sm: 72, md: 96 },
-          lineHeight: 1.05,
+          fontSize: { xs: 34, sm: 50, md: 64 },
+          lineHeight: 1.3,
+          pb: 0.5,
           background: "linear-gradient(180deg, #ead9ae, #c9a96e 55%, #9a7b3f)",
           WebkitBackgroundClip: "text",
           WebkitTextFillColor: "transparent",
@@ -19,12 +54,12 @@ export default function Masthead() {
         Digital Dream Studios
       </Typography>
 
-      <Divider sx={{ maxWidth: 520, mx: "auto", my: 2, color: "primary.main" }}>✦</Divider>
+      <Divider sx={{ maxWidth: 440, mx: "auto", my: 1.5, color: "primary.main" }}>✦</Divider>
 
       <Typography
         variant="overline"
-        color="white"
-        sx={{ letterSpacing: "0.18em", fontSize: { xs: 25, sm: 27 } }}
+        color="text.secondary"
+        sx={{ letterSpacing: "0.18em", fontSize: { xs: 11, sm: 14 } }}
       >
         We make your memories special
       </Typography>
